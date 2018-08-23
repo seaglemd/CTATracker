@@ -1,0 +1,43 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\FrameXML\UI.xsd">
+  <Frame name="CTATracker_MainFrame" enableMouse="true" movable="true" parent="UIParent">
+    <Size>
+      <AbsDimension x="300" y="30" />
+    </Size>
+    <Anchors>
+      <Anchor point="CENTER" />
+    </Anchors>
+    <Layers>
+      <Layer level="BACKGROUND">
+        <Texture>
+          <Size>
+            <AbsDimension x="140" y="59" />
+            <Color r="0.25" g="0.25" b="0.25" a="0.25" />
+          </Size>
+        </Texture>
+      </Layer>
+    </Layers>
+    <Scripts>
+      <OnLoad>
+        CTATracker_MainFrame:SetScale(1);
+      </OnLoad>
+      <OnMouseDown>
+        if button == "LeftButton" and not self.isMoving then
+          self:StartMoving();
+          self.isMoving = true;
+        end
+      </OnMouseDown>
+      <OnMouseUp>
+        if button == "LeftButton" and self.isMoving then
+          self:StopMovingOrSizing();
+          self.isMoving = false;
+        end
+      </OnMouseUp>
+      <OnHide>
+        if ( self.isMoving ) then
+          self:StopMovingOrSizing();
+          self.isMoving = false;
+        end
+      </OnHide>
+    </Scripts>
+  </Frame>
+</Ui>
