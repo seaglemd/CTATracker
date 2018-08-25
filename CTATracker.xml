@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\FrameXML\UI.xsd">
   <Frame name="CTATracker_MainFrame" enableMouse="true" movable="true" parent="UIParent">
     <Size>
-      <AbsDimension x="300" y="30" />
+      <AbsDimension x="400" y="400" />
     </Size>
     <Anchors>
       <Anchor point="CENTER" />
@@ -10,9 +10,8 @@
       <Layer level="BACKGROUND">
         <Texture>
           <Size>
-            <AbsDimension x="140" y="59" />
-            <Color r="0.25" g="0.25" b="0.25" a="0.25" />
-          </Size>
+            <AbsDimension x="400" y="400" /></Size>
+            <Color r="1.00" g="0.25" b="0.25" a="0.25" />
         </Texture>
       </Layer>
     </Layers>
