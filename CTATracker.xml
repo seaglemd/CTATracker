@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/..\..\FrameXML\UI.xsd">
   <Frame name="CTATracker_MainFrame" enableMouse="true" movable="true" parent="UIParent">
     <Size>
-      <AbsDimension x="400" y="400" />
+      <AbsDimension x="140" y="60" />
     </Size>
     <Anchors>
       <Anchor point="CENTER" />
@@ -10,14 +10,15 @@
       <Layer level="BACKGROUND">
         <Texture>
           <Size>
-            <AbsDimension x="400" y="400" /></Size>
-            <Color r="1.00" g="0.25" b="0.25" a="0.25" />
+            <AbsDimension x="140" y="60" /></Size>
+            <Color r="0" g="0" b="0" a="0.90" />
         </Texture>
       </Layer>
     </Layers>
     <Scripts>
       <OnLoad>
         CTATracker_MainFrame:SetScale(1);
+        CTATracker_CreateBasicFrames();
       </OnLoad>
       <OnMouseDown>
         if button == "LeftButton" and not self.isMoving then
@@ -38,5 +39,73 @@
         end
       </OnHide>
     </Scripts>
+    <Frames>
+      <Frame name="CTATracker_TopAnchorFrame">
+        <Size>
+          <AbsDimension x="140" y="1" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOP" relativeTo="CTATracker_MainFrame">
+            <Offset>
+              <AbsDimension x="0" y="0" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture>
+              <Size>
+                <AbsDimension x="140" y="1" />
+              </Size>
+              <Color r="0" g="0" b="0" a="0.90" />
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+      <Frame name="CTATracker_BottomAnchorFrame">
+        <Size>
+          <AbsDimension x="140" y="1" />
+        </Size>
+        <Anchors>
+          <Anchor point="BOTTOM" relativeTo="CTATracker_MainFrame">
+            <Offset>
+              <AbsDimension x="0" y="0" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture>
+              <Size>
+                <AbsDimension x="140" y="1" />
+              </Size>
+              <Color r="0" g="0" b="0" a="0.90" />
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+      <Frame name="CTATracker_HeroicTitleFrame">
+        <Size>
+          <AbsDimension x="134" y="28" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT" relativeTo="CTATracker_TopAnchorFrame">
+            <Offset>
+              <AbsDimension x="3" y="-2" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="BACKGROUND">
+            <Texture>
+              <Size>
+                <AbsDimension x="134" y="28" />
+              </Size>
+              <Color r="0.10" g="0.10" b="0.10" a="0.90" />
+            </Texture>
+          </Layer>
+        </Layers>
+      </Frame>
+    </Frames>
   </Frame>
 </Ui>

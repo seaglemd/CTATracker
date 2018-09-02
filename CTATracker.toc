@@ -2,4 +2,9 @@
 ## Title: CTA Tracker
 ## Author: Matthew Seagle
 ## Notes: Track Call To Arms
+## SavedVariablesPerCharacter: CTATracker_ScaleWatch
+CTATrackerVars.lua
+CTATrackerSC.lua
+CTATrackerBasicFrames.lua
+CTATrackerConfigElements.lua
 CTATracker.xml
