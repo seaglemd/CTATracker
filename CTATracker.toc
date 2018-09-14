@@ -4,6 +4,7 @@
 ## Notes: Track Call To Arms
 ## SavedVariablesPerCharacter: CTATracker_ScaleWatch
 CTATrackerVars.lua
+CTATrackerFrameClass.lua
 CTATrackerSC.lua
 CTATrackerBasicFrames.lua
 CTATrackerConfigElements.lua

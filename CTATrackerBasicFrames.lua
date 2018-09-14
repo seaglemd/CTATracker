@@ -1,6 +1,6 @@
 function CTATracker_CreateBasicFrames()
   CTATracker_BasicFrameElements();
-  CTATracker_TemplateFrame();
+  CTATracker_CreateDungeonFrames(3);
   CTATracker_CreateConfigFrame();
 end
 
@@ -23,50 +23,70 @@ function CTATracker_CreateConfigFrame()
   CTATracker_ConfigElements();
 end
 --------------------------------------------------------------------------------
+--Creates the dungeon frames
+--------------------------------------------------------------------------------
+function CTATracker_CreateDungeonFrames(num)
+  if(CTATracker_Frames ~= nil) then
+    CTATracker_CollectGarbage();    
+  end
+  CTATracker_Frames = {};
+  for i=1, num do
+    CTATracker_Frames[i] = CTATracker_DungeonFrame:new{
+      dungeonFrameName = "CTATracker_DungeonFrame" .. i,
+      buttonFrameName = "CTATracker_ButtonFrame" .. i,
+      Frame = CreateFrame("Frame", dungeonFrameName, CTATracker_TopAnchorFrame),
+      ButtonFrame = CreateFrame("Frame", buttonFrameName,nil),         
+      xpos = 0,
+      ypos = (34-(i*36))
+    };    
+    CTATracker_CurrentFrame(CTATracker_Frames[i].Frame, CTATracker_Frames[i].ButtonFrame, CTATracker_Frames[i].ypos);
+  end
+  CTATracker_MainFrame:SetHeight((num*36)+20);
+end
+--------------------------------------------------------------------------------
 --Basic Template Frames
 --------------------------------------------------------------------------------
-function CTATracker_TemplateFrame()
-  CTATracker_TemplateFrame = CreateFrame("Frame", "CTATracker_TemplateFrame", CTATracker_TopAnchorFrame);
-  CTATracker_TemplateFrame:SetPoint("TOP", CTATracker_TopAnchorFrame, 0, -2);
-  CTATracker_TemplateFrame:SetWidth(94);
-  CTATracker_TemplateFrame:SetHeight(34);
-  CTATracker_TemplateFrame.texture = CTATracker_TemplateFrame:CreateTexture(nil, "BACKGROUND");
-  CTATracker_TemplateFrame.texture:SetAllPoints(CTATracker_TemplateFrame);
-  CTATracker_TemplateFrame.texture:SetColorTexture(0.10,0.10,0.10,0.90);
-  CTATracker_TemplateFrame:Show();
+function CTATracker_CurrentFrame(Frame, ButtonFrame, ypos)  
+  Frame:SetPoint("TOP", CTATracker_TopAnchorFrame, 0, ypos);
+  Frame:SetWidth(94);
+  Frame:SetHeight(34);
+  Frame.texture = Frame:CreateTexture(nil, "BACKGROUND");
+  Frame.texture:SetAllPoints(Frame);
+  Frame.texture:SetColorTexture(0.10,0.10,0.10,0.90);
+  Frame:Show();
 
-  CTATracker_TemplateHeader = CTATracker_TemplateFrame:CreateFontString(nil, "ARTWORK", "GAMEFONTNORMAL");
-  CTATracker_TemplateHeader:SetFont("Fonts\\FRIZQT__.TTF", 8, "OUTLINE, MONOCHROME");
-  CTATracker_TemplateHeader:SetTextColor(1,1,1,1);
-  CTATracker_TemplateHeader:SetPoint("TOP", CTATracker_TemplateFrame, 0, -4);
-  CTATracker_TemplateHeader:SetText("CTA Template Header");
+  FrameHeader = Frame:CreateFontString(nil, "ARTWORK", "GAMEFONTNORMAL");
+  FrameHeader:SetFont("Fonts\\FRIZQT__.TTF", 8, "OUTLINE, MONOCHROME");
+  FrameHeader:SetTextColor(1,1,1,1);
+  FrameHeader:SetPoint("TOP", Frame, 0, -4);
+  FrameHeader:SetText("CTA Template Header");
 
-  CTATracker_ButtonTemplateFrame();
+  CTATracker_ButtonTemplateFrame(Frame, ButtonFrame);
 end
 --------------------------------------------------------------------------------
 --Basic Template Button Frame
 --------------------------------------------------------------------------------
-function CTATracker_ButtonTemplateFrame()
-  CTATracker_ButtonTemplateFrame = CreateFrame("Frame", "CTATracker_ButtonTemplateFrame", CTATracker_TemplateFrame);
-  CTATracker_ButtonTemplateFrame:SetPoint("TOP", CTATracker_TemplateFrame, 0, -15);
-  CTATracker_ButtonTemplateFrame:SetWidth(90);
-  CTATracker_ButtonTemplateFrame:SetHeight(18);
-  CTATracker_ButtonTemplateFrame.texture = CTATracker_ButtonTemplateFrame:CreateTexture(nil, "BACKGROUND");
-  CTATracker_ButtonTemplateFrame.texture:SetAllPoints(CTATracker_ButtonTemplateFrame);
-  CTATracker_ButtonTemplateFrame.texture:SetColorTexture(0,0,0,1);
-  CTATracker_ButtonTemplateFrame:Show();
+function CTATracker_ButtonTemplateFrame(Frame, ButtonFrame)
+  ButtonFrame:SetParent(Frame);
+  ButtonFrame:SetPoint("TOP", Frame, 0, -15);
+  ButtonFrame:SetWidth(90);
+  ButtonFrame:SetHeight(18);
+  ButtonFrame.texture = ButtonFrame:CreateTexture(nil, "BACKGROUND");
+  ButtonFrame.texture:SetAllPoints(ButtonFrame);
+  ButtonFrame.texture:SetColorTexture(0,0,0,1);
+  ButtonFrame:Show();
 
-  CTATracker_TankButtonTemplate();
-  CTATracker_HealerButtonTemplate();
-  CTATracker_DPSButtonTemplate();
+  CTATracker_TankButtonTemplate(ButtonFrame);
+  CTATracker_HealerButtonTemplate(ButtonFrame);
+  CTATracker_DPSButtonTemplate(ButtonFrame);
 end
 --------------------------------------------------------------------------------
 --Basic Tank Button
 --------------------------------------------------------------------------------
-function CTATracker_TankButtonTemplate()
-  local tankButton = CreateFrame("Button","tankButton",CTATracker_ButtonTemplateFrame);
+function CTATracker_TankButtonTemplate(ButtonFrame)
+  local tankButton = CreateFrame("Button","tankButton",ButtonFrame);
   tankButton:EnableMouse(true);
-  tankButton:SetPoint("LEFT",CTATracker_ButtonTemplateFrame,0,0);
+  tankButton:SetPoint("LEFT",ButtonFrame,0,0);
   tankButton:SetWidth(16);
   tankButton:SetHeight(16);
   tankButton:SetFrameStrata("MEDIUM");
@@ -92,10 +112,10 @@ end
 --------------------------------------------------------------------------------
 --Basic Healer Button
 --------------------------------------------------------------------------------
-function CTATracker_HealerButtonTemplate()
-  local healerButton = CreateFrame("Button","healerButton",CTATracker_ButtonTemplateFrame);
+function CTATracker_HealerButtonTemplate(ButtonFrame)
+  local healerButton = CreateFrame("Button","healerButton",ButtonFrame);
   healerButton:EnableMouse(true);
-  healerButton:SetPoint("CENTER",CTATracker_ButtonTemplateFrame,0,0);
+  healerButton:SetPoint("CENTER",ButtonFrame,0,0);
   healerButton:SetWidth(16);
   healerButton:SetHeight(16);
   healerButton:SetFrameStrata("MEDIUM");
@@ -122,9 +142,9 @@ end
 --------------------------------------------------------------------------------
 --Basic DPS Button
 --------------------------------------------------------------------------------
-function CTATracker_DPSButtonTemplate()
-  local dpsButton = CreateFrame("Button","dpsButton",CTATracker_ButtonTemplateFrame);
-  dpsButton:SetPoint("RIGHT", CTATracker_ButtonTemplateFrame,0,0);
+function CTATracker_DPSButtonTemplate(ButtonFrame)
+  local dpsButton = CreateFrame("Button","dpsButton",ButtonFrame);
+  dpsButton:SetPoint("RIGHT", ButtonFrame,0,0);
   dpsButton:EnableMouse(true);
   dpsButton:SetWidth(16);
   dpsButton:SetHeight(16);
@@ -211,4 +231,16 @@ function CTATracker_BasicFrameElements()
   ptex:SetAllPoints();
   CTATracker_ConfigButton:SetPushedTexture(ptex);
   CTATracker_ConfigButton:SetScript("OnClick", function() CTATracker_ConfigFrame:Show(); end);
+end
+
+--------------------------------------------------------------------------------
+--Collect the garbage from orphaned frames, your welcome world, I care about
+--addon memory usage
+--------------------------------------------------------------------------------
+function CTATracker_CollectGarbage()
+  for i=1, table.getn(CTATracker_Frames) do
+    CTATracker_Frames[i].Frame:Hide();
+    CTATracker_Frames[i] = nil;
+  end
+  collectgarbage("collect");
 end
